@@ -13,6 +13,8 @@ If you want to compile using Mark Ogden makefile to create a CP/M version you wi
 
 Perl script unpack.pl automatically split the cgen.c file so that it can be built with zxcc and the makefile will run with zxcc.
 
+Makefile and unpack.pl should be in a subdirectory relative to the location of the cgen.c and cgen.h files so as not to mess them up when unpacking. 
+
 Note you need patches for zxcc so that the redirect from stdin works for link. Also optim needs to be built on your platform and accessible via PATH.
 
 Since the stripped-down library is not used, then cgen.com (or xcgen.com to avoid problems with assembly), it turns out more of the original.
