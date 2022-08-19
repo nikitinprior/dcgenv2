@@ -1,18 +1,16 @@
 /*
- * File cgen.c Created 17.05.2019 Last Modified 24.12.2021
- *
- * Mark Ogden &	Andrey Nikitin   24.12.2021
+ * File data.c Created 17.05.2019 Last Modified 03.02.2021
  */
 
 #include "cgen.h"
 
 /* ===== start bss section ======= */
 
-int lineno;             /* getToken, sub_6AD0, prMsg  */
+int lineno;             /* getToken, sub_6AD0, prMsg*/
 char progname[MAXNAME]; /* getToken, prWarning, prMsg */
 
-member_t *typeLong; 	/* "l" - long	*/    /* sub_1680, sub_415E, sub_43EF */
-int array_AE13[MAXFUN]; /*		*/    /* leaveBlock,  sub_17E0, sub_5CF5 */
+member_t *typeLong; /* "l" - long		   */ /* sub_1680, sub_415E, sub_43EF */
+int array_AE13[MAXFUN]; /*			   */     /* leaveBlock,  sub_17E0, sub_5CF5 */
 member_t *typeUChar;                          /* "uc" - uint8_t	   */
 uint16_t nstdpth;                             /* Current nesting depth   */
 int array_AE57[MAXFUN];                       /*			   */
@@ -36,15 +34,21 @@ uint8_t byte_B014;        /* sub_3CDF, sub_3DC9 */
 char *warningMsg;         /* Pointer for printf      */
 int word_B017;            /* leaveBlock, sub_6D1, sub_283E, sub_2BD0, sub_61AA */
 bool wflag;               /* Warning messages	   */
+#if 0
 bool pflag;               /* Not used		   */
 bool hflag;               /* Not used		   */
-int errcnt;               /* Number of errors	   */
-bool bflag;               /* Not used		   */
-#ifdef CPM
-char *baseHeap;           /* Current highest memory  */
 #endif
-bool eflag;               /* Not used		   */
-bool rflag;               /* Not used		   */
+int errcnt;               /* Number of errors	   */
+#if 0
+bool bflag;               /* Not used		   */
+#endif
+#ifdef CPM
+char *baseHeap; /* Current highest memory  */
+#endif
+#if 0
+bool eflag; /* Not used		   */
+#endif
+bool rflag;
 
 /* ===== End of bss section ======= */
 
@@ -87,8 +91,8 @@ struct codeFrag_t codeFrag[] = {
     {3,    0,    0,    0x21, 'I',  'J',  stab4+0xA7,  stab0+0x58},  /* 17 */
     {3,    0,    0,    0x46, 'V',  0,    0,           stab0+0x58},  /* 18 */
     {3,    0,    0,    0x31, 'J',  0,    stab4+0x128, stab0+0x58},  /* 19 */
-    {0,    0,    0,    0x57,  0,   0,    0,           stab0+0x58},  /* 20 */
-    {3,    0,    0,    0x55,  0,   0,    0,           stab0+0x58},  /* 21 */
+    {0,    0,    0,    0x57, 0,    0,    0,           stab0+0x58},  /* 20 */
+    {3,    0,    0,    0x55, 0,    0,    0,           stab0+0x58},  /* 21 */
     {7,    0,    0,    0x21, 'I',  'J',  stab0+0x107, stab0+0x58},  /* 22 */
     {8,    0,    0,    0x31, 'X',  0,    stab4+0x121, stab0+0x58},  /* 23 */
     {5,    0,    0,    0x31, 'J',  0,    stab3+0x115, stab0+0x58},  /* 24 */
@@ -739,7 +743,7 @@ char stab4[] = {
     "ge\0"                   /* 0x1C4 */
     "lt\0"                   /* 0x1C7 */
     "2\0"                    /* 0x1CA */
-    "4"                      /* 0x1CC */
+    "4"                    /* 0x1CC */
 };
 
 
@@ -855,13 +859,13 @@ uint8_t array_AB54[] = { 14, 13, 12, 0, 0, 0,         /* groups of 6 bytes, each
 
 /* offsets into character array below */
 static int16_t array_987D[] = { 0,     0,     4,     9,     0x0A,  0x0C,  0x0E,  0x1C,  0x2D,
-                         0x31,  0x3E,  0x52,  0x54,  0x62,  0x7C,  0x8E,  0x0A0, 0x0A1,
-                         0x0A3, 0x0B3, 0x0C3, 0x0D7, 0x0E7, 0x0E8, 0x0EB, 0x0F9, 0x0FB,
-                         0x0FD, 0x10B, 0x119, 0x11A, 0x11F, 0x12F, 0x130, 0x147, 0x155,
-                         0x165, 0x173, 0x18B, 0x19B, 0x1A9, 0x1B9, 0x1BE, 0x1CE, 0x1DE,
-                         0x1EE, 0x1EF, 0x1F4, 0x204, 0x214, 0x216, 0x217, 0x218, 0x219,
-                         0x21A, 0x21B, 0x21C, 0x21D, 0x21E, 0x22E, 0x22F, 0x23F, 0x243,
-                         0x244, 0x254, 0x255, 0x256, 0x26F, 0x28D, 0x2A6, 0x2B6, 0x2B8 };
+                                0x31,  0x3E,  0x52,  0x54,  0x62,  0x7C,  0x8E,  0x0A0, 0x0A1,
+                                0x0A3, 0x0B3, 0x0C3, 0x0D7, 0x0E7, 0x0E8, 0x0EB, 0x0F9, 0x0FB,
+                                0x0FD, 0x10B, 0x119, 0x11A, 0x11F, 0x12F, 0x130, 0x147, 0x155,
+                                0x165, 0x173, 0x18B, 0x19B, 0x1A9, 0x1B9, 0x1BE, 0x1CE, 0x1DE,
+                                0x1EE, 0x1EF, 0x1F4, 0x204, 0x214, 0x216, 0x217, 0x218, 0x219,
+                                0x21A, 0x21B, 0x21C, 0x21D, 0x21E, 0x22E, 0x22F, 0x23F, 0x243,
+                                0x244, 0x254, 0x255, 0x256, 0x26F, 0x28D, 0x2A6, 0x2B6, 0x2B8 };
 
 static uint8_t array_990D[] = {
     "Qhi\0"                           /* [0 or 1] 000h */
@@ -1016,7 +1020,7 @@ int sub_13D(int a, int b) {
  */
 
 /*********************************************************
- * char sub_1B2 OK++ PMO	Used in: sub_6D1, sub_4192
+ * char sub_1B2 OK++ PMO	       Used in: sub_6D1, sub_4192
  *
  * Token search		(Binary search algorithm is used)
  *********************************************************/
@@ -1093,8 +1097,8 @@ member_t **gethashptr(register char *str) {
 }
 
 /*********************************************************
- * sub_265 OK++ PMO Used in: sub_627,  sub_B19,  sub_E43,
- *			     sub_1680, sub_1754, sub_4192
+ * sub_265 OK++ PMO	     Used in: sub_627,  sub_B19,  sub_E43,
+ *			      sub_1680, sub_1754, sub_4192
  *
  * Return pointer to struct associated with pointer to token
  *********************************************************/
@@ -1120,9 +1124,9 @@ member_t *sub_265(char *str) {
 }
 
 /*********************************************************
- * sub_306 v1 OK++ PMO Used in: sub_6D1,  sub_793,  sub_B19,
- *			        sub_E43,  sub_17E0, sub_19C1,
- *			        sub_4192
+ * sub_306 v1 OK++ PMO    Used in: sub_6D1,  sub_793,  sub_B19,
+ *			      sub_E43,  sub_17E0, sub_19C1,
+ *			      sub_4192
  * get_token
  * Optimiser one basic blocked moved between original code
  *  and new code. Behaviour unchanged
@@ -1168,8 +1172,7 @@ char *getToken() {
  *   match number and types actual and formal parameters
  *   this function.
  *   Modified code to get sb->b_next before freeing sb
- *   Other than code changes to handle the above, the code
- *   is identical
+ *   Other than code changes to handle the above, the code is identical
  *********************************************************/
 /* remove and free up items which have got out of scope */
 
@@ -1242,7 +1245,7 @@ void leaveBlock() {
 }
 
 /*********************************************************
- * sub_627 OK++ PMO  Used in: sub_17E0, sub_19C1, sub_4192
+ * sub_627 OK++ PMO     Used in: sub_17E0, sub_19C1, sub_4192
  *********************************************************/
 /* encode the accessor prefix */
 member_t *sub_627(register char *ch, uint16_t *par) {
@@ -1271,7 +1274,7 @@ member_t *sub_627(register char *ch, uint16_t *par) {
 }
 
 /*********************************************************
- * sub_6C8 OK++ PMO		Used in: sub_6D1, expect
+ * sub_6C8 OK++ PMO			Used in: sub_6D1, expect
  *********************************************************/
 void badIntCode() {
 
@@ -1298,7 +1301,7 @@ void parseStmt() {
         case LBRACE:   /* "{" opening block */
             nstdpth++; /* Increase the current nesting depth */
             break;
-        case RBRACE: /* "}" end of block */
+        case RBRACE: /* "}" end of block 	*/
             leaveBlock();
             break;
         case EXPR: /* "[e" expression	*/
@@ -1319,7 +1322,7 @@ void parseStmt() {
         case ENUM: /* "[c" enum		*/
             parseEnum();
             break;
-        case INIT: /* "[i" initialization */
+        case INIT: /* "[i" initialization	*/
             parseInit();
             break;
         case UNKNOWN: /* "[a" 		*/
@@ -1379,9 +1382,9 @@ void parseData() {
  * File - code.c
  */
 /*********************************************************
- * sub_808 OK++ PMO			 Used in: sub_B19
+ * sub_808 OK++ PMO				 Used in: sub_B19
  * code identical except for where the original code had
- * l = l4b->b_b6 immediately followed
+ * l = l4b->bOffset immediately followed
  * by hl = 0. The useless l = l4b->b-b6 code is no longer there
  * Note there appears to be a problem with hitech code generation
  * around << of a long value
@@ -1410,9 +1413,10 @@ int sub_808(register member_t *sb, node_t *p2a) {
                     prDefb0s(l2); /* emit defb 0 to pad to item boundary */
                 }
                 if (l4b->b_sloc & 0x10) {
-                    p2a = sub_43EF(BAND, p2a, sub_415E((1L << (int8_t)(l4b->b_b5)) - 1L));
-                    if (l4b->b_b6 != 0)
-                        l6a = sub_43EF(BOR, l6a, sub_43EF(LSHIFT, p2a, sub_415E(0L)));
+                    p2a = sub_43EF(BAND, p2a, sub_415E((1L << (int8_t)(l4b->bWidth)) - 1L));
+                    if (l4b->bOffset != 0)
+                        /* PMO: bug fix, replaced 0L arg to sub_415E with bit offset l4b->bOffset*/
+                        l6a = sub_43EF(BOR, l6a, sub_43EF(LSHIFT, p2a, sub_415E(l4b->bOffset)));
                     else
                         l6a = p2a;
 
@@ -1475,11 +1479,11 @@ void parseInit() {
 }
 
 /*********************************************************
- * sub_B96 OK++ PMO			Used in: sub_2BD0
+ * sub_B96 OK++ PMO				Used in: sub_2BD0
  * emit_call_ncsv
  *********************************************************/
 void prFrameHead(int fId) {
-    static bool frameGlobalsEmitted; /* First call ncsv */
+    static bool frameGlobalsEmitted; /* First call ncsv	   */
 
     prPsect(P_TEXT);
     if (frameGlobalsEmitted == false) /* if first call	*/
@@ -1491,7 +1495,7 @@ void prFrameHead(int fId) {
 }
 
 /*********************************************************
- * sub_BCC OK++ PMO		       Used in: leaveBlock
+ * sub_BCC OK++ PMO				 Used in: leaveBlock
  *********************************************************/
 void prFrameTail(int fId, int fSize) {
 
@@ -1502,7 +1506,7 @@ void prFrameTail(int fId, int fSize) {
 }
 
 /*********************************************************
- * sub_BEE OK++ PMO		       Used in: leaveBlock
+ * sub_BEE OK++ PMO				 Used in: leaveBlock
  *********************************************************/
 void sub_BEE(int kId, int size) {
 
@@ -1517,7 +1521,7 @@ void sub_BEE(int kId, int size) {
 }
 
 /*********************************************************
- * sub_C36 OK++ PMO    Used in: sub_C57, sub_CAB, sub_4192
+ * sub_C36 OK++ PMO       Used in: sub_C57, sub_CAB, sub_4192
  *********************************************************/
 void prGlobalDef(register member_t *sb) {
 
@@ -1526,7 +1530,7 @@ void prGlobalDef(register member_t *sb) {
 }
 
 /*********************************************************
- * sub_C57 OK++ PMO			Used in: sub_5CF5
+ * sub_C57 OK++ PMO				Used in: sub_5CF5
  *********************************************************/
 void sub_C57(register member_t *sb) {
 
@@ -1540,7 +1544,7 @@ void sub_C57(register member_t *sb) {
 }
 
 /*********************************************************
- * sub_CAB OK++ PMO		Used in: sub_B19, sub_C57
+ * sub_CAB OK++ PMO			Used in: sub_B19, sub_C57
  *
  * Emit "symbolic_name:" (identifier label)
  *********************************************************/
@@ -1553,30 +1557,30 @@ void sub_CAB(register member_t *sb) {
 }
 
 /*********************************************************
- * sub_CDF OK++ PMO			Used in: sub_808
+ * sub_CDF OK++ PMO				 Used in: sub_808
  * Emit "defb 0, ..." (num bytes)
  *********************************************************/
 void prDefb0s(int num) {
     char cnt;
 
-    cnt = 0;             /* Reset counter bytes printed	       */
-    while (num-- != 0) { /* While data is available	       */
+    cnt = 0;             /* Reset counter bytes printed	   */
+    while (num-- != 0) { /* While data is available	   */
         if (cnt == 0)
-            printf("defb\t0"); /* Initially output "defb 0",   */
+            printf("defb\t0"); /* Initially output "defb 0",	   */
         else
-            printf(",0");   /* later ",0"		       */
+            printf(",0");   /* later ",0"			   */
         cnt++;              /* and update number bytes output  */
         if (cnt == 16) {    /* If number bytes in string is 16 */
-            cnt = 0;        /* Reset counter and	       */
-            fputchar('\n'); /* continue output in next line    */
+            cnt = 0;        /* Reset counter and		   */
+            fputchar('\n'); /* continue output in next line	   */
         }
-    } /* continue processing */
+    } /* continue processing		   */
     if (cnt != 0)
         fputchar('\n'); /* If line is incomplete, new line */
 }
 
 /*********************************************************
- * prPsect OK++ PMO  Used in: sub_6D1,  sub_793,  sub_B19,
+ * prPsect OK++ PMO     Used in: sub_6D1,  sub_793,  sub_B19,
  * 			      prFrameHead,  prFrameTail,  sub_BEE,
  * Select psect		      sub_C57,  sub_E43
  *********************************************************/
@@ -1589,7 +1593,7 @@ void prPsect(int section) {
 }
 
 /*********************************************************
- * sub_D66 OK++ PMO			Used in: sub_E43
+ * sub_D66 OK++ PMO				 Used in: sub_E43
  *
  *********************************************************/
 void sortCaseLabels(int *pCase, int *pLabel, int nCase) {
@@ -1623,7 +1627,7 @@ void sortCaseLabels(int *pCase, int *pLabel, int nCase) {
 }
 
 /*********************************************************
- * sub_E43 OK++	PMO		 	Used in: sub_6D1
+ * sub_E43 OK++	PMO		 Used in: sub_6D1
  * Only minor code differences due to the declaration of
  * functions with char / uint8_t parameters rather than
  * defaulting to int.
@@ -1846,8 +1850,8 @@ void prIXnPush(register member_t *sb) {
 }
 
 /*********************************************************
- * sub_14F3  PMO   Used in: sub_153A, sub_2D09, sub_39CA,
- * OK++			    sub_3A79, sub_3EAA, sub_47B2,
+ * sub_14F3 OK++ PMO   Used in: sub_153A, sub_2D09, sub_39CA,
+ *			    sub_3A79, sub_3EAA, sub_47B2,
  *			    sub_4FCE, sub_508A, sub_54B6,
  *			    sub_60A8, sub_6246, sub_628F
  *********************************************************/
@@ -1880,15 +1884,15 @@ void sub_153A(register node_t *sa) {
 void prDefb(register char *ptr, int num) {
     char cnt;
 
-    cnt = 0;             		/* Reset counter bytes printed	   */
-    while (num-- != 0) { 		/* While data is available	   */
+    cnt = 0;             /* Reset counter bytes printed	   */
+    while (num-- != 0) { /* While data is available	   */
         if (cnt == 0)
-            printf("defb\t"); 		/* Initially output "defb",	   */
+            printf("defb\t"); /* Initially output "defb",	   */
         else
-            fputchar(',');             	/* later "," 			   */
-        printf("%d", (uint8_t)*ptr++); 	/* Output byte and advance pointer */
-        cnt++;                         	/* update number bytes output 	   */
-        if (cnt == 16) {               	/* max 16 bytes per line 	   */
+            fputchar(',');             /* later "," 			   */
+        printf("%d", (uint8_t)*ptr++); /* Output byte and advance pointer */
+        cnt++;                         /* update number bytes output 	   */
+        if (cnt == 16) {               /* max 16 bytes per line */
             fputchar('\n');
             cnt = 0;
         }
@@ -1898,14 +1902,14 @@ void prDefb(register char *ptr, int num) {
 }
 
 /*********************************************************
- * xx1	 OK++ PMO	Used in: Explicit calls are absent
+ * xx1	 OK++ PMO		Used in: Explicit calls are absent
  *********************************************************/
 void prJmpLabel(int p) {
     printf("j%d:\n", p);
 }
 
 /*********************************************************
- * xx2	 OK++ PMO	Used in: Explicit calls are absent
+ * xx2	 OK++ PMO		Used in: Explicit calls are absent
  *********************************************************/
 void prJump(int p) {
     printf("jp\tj%d\n", p);
@@ -1941,7 +1945,7 @@ int max(int num1, int num2) {
 
 #define NVARS 14
 
-struct type {
+struct tType {
     char *t_str;
     int t_size;
     int t_alig;
@@ -1956,17 +1960,17 @@ struct type {
 void sub_1680() {
     member_t *sb;
     int16_t cnt;
-    register struct type *tp;
+    register struct tType *tp;
 
     /*
      *	Initializaion of type pointers
      */
-    static struct type vars[NVARS] = { /* sub_1680 */
-                                       { "i", 2, 0, 1 },  { "s", 2, 0, 1 },  { "c", 1, 0, 1 },
-                                       { "l", 4, 0, 1 },  { "ui", 2, 0, 2 }, { "us", 2, 0, 2 },
-                                       { "uc", 1, 0, 2 }, { "ul", 4, 0, 2 }, { "f", 4, 0, 3 },
-                                       { "d", 4, 0, 3 },  { "x", 2, 0, 1 },  { "ux", 2, 0, 2 },
-                                       { "b", 0, 0, 0 },  { "v", 0, 0, 0 }
+    static struct tType vars[NVARS] = { /* sub_1680 */
+                                        { "i", 2, 0, 1 },  { "s", 2, 0, 1 },  { "c", 1, 0, 1 },
+                                        { "l", 4, 0, 1 },  { "ui", 2, 0, 2 }, { "us", 2, 0, 2 },
+                                        { "uc", 1, 0, 2 }, { "ul", 4, 0, 2 }, { "f", 4, 0, 3 },
+                                        { "d", 4, 0, 3 },  { "x", 2, 0, 1 },  { "ux", 2, 0, 2 },
+                                        { "b", 0, 0, 0 },  { "v", 0, 0, 0 }
     };
 
     /* Clear hash table */
@@ -2015,21 +2019,21 @@ member_t *sub_1754(char *token, uint8_t cls) {
     register member_t *sb;
 
     sb = sub_265(token);                          /* Set pointer to struct associated with   */
-                                                  /* pointer to token.			     */
+                                                  /* pointer to token.			   */
     if (sb->b_ndpth != nstdpth) {                 /* If nesting depth not correspond current,*/
         l1b        = gethashptr(token);           /* Get pointer to pointer to struct from   */
         sb         = allocMem(sizeof(member_t));  /* hash table. Create new struct and save  */
         sb->b_next = *l1b;                        /* pointer to struct from hash table in    */
-                                                  /* struct as associated with it. 	     */
+                                                  /* struct as associated with it. 	   */
         *l1b = sb;                                /* Save pointer to this struct in current  */
-                                                  /* position hash table.		     */
+                                                  /* position hash table.			   */
         sb->b_name = allocMem(strlen(token) + 1); /* Get memory address allocated for token  */
                                                   /* and assign it to corresponding member.  */
         strcpy(sb->b_name, token);                /* Copy specified token to this address.   */
         sb->b_ndpth = (uint8_t)nstdpth;           /* Save current nesting depth in struct    */
                                                   /*
                                                         if(++symcnt > dynmem)   dynmem = symcnt;
-                                                   */
+                                                  */
     }
     sb->b_class = cls;
     return sb;
@@ -2039,7 +2043,7 @@ member_t *sub_1754(char *token, uint8_t cls) {
  * File - sym1.c
  */
 /*********************************************************
- * sub_17E0 OK++ PMO		Used in: sub_6D1, sub_4192
+ * sub_17E0 OK++ PMO			Used in: sub_6D1, sub_4192
  *
  * Two related Basic Blocks moved and one optimisation
  * loading a from l rather then sb->b_size
@@ -2060,18 +2064,18 @@ void parseVariable() {
     expect(']');
 
     switch (l2) {
-    case 'A': /* auto */
+    case 'A': /* auto		*/
     case 'a':
         sb->b_flag = 1;
         break;
-    case 'R': /* register */
+    case 'R': /* register	*/
     case 'r':
         sb->b_sloc |= 8;
-    case 'P': /* pointer */
+    case 'P': /* pointer	*/
     case 'p':
         sb->b_flag = 5;
         break;
-    case 'S': /* static */
+    case 'S': /* static 	*/
     case 's':
         sb->b_flag = 4;
         break;
@@ -2079,7 +2083,7 @@ void parseVariable() {
     case 'e':
         sb->b_flag = 3;
         break;
-    case 'T': /* typedef */
+    case 'T': /* typedef	*/
     case 't':
         sb->b_class = TYPE;
         if (sb->b_refl != 0) {
@@ -2129,7 +2133,6 @@ typedef struct {
 
 /*********************************************************
  * sub_19C1 OK++ PMO	       Used in: sub_6D1, sub_4192
- *
  * One minor optimisation as sub_1754 now declared as taking
  * a uint8_t rather than int for last parameter
  *********************************************************/
@@ -2153,7 +2156,7 @@ void parseMembers(int p1) {
         sb          = (member_t *)allocMem(sizeof(member_t)); /* Create member_t */
         sb->b_class = MEMBER;
         if (*l5 == ':') {
-            sb->b_b5 = atoi(l5 + 1);
+            sb->bWidth = atoi(l5 + 1);
             sb->b_sloc |= 0x10;
             l5 = getToken();
         }
@@ -2275,13 +2278,13 @@ void sub_1CEF(register member_t *sb) {
         } else {
             l1 = l4b->b_off = sub_1C6D(l1, sub_1CC4(l4b));
             if (l4b->b_sloc & 0x10) {
-                if (16 < l3 + l4b->b_b5 || l4b->b_b5 == 0) {
+                if (16 < l3 + l4b->bWidth || l4b->bWidth == 0) {
                     if (l3 != 0)
                         l4b->b_off = (l1 += 2);
                     l3 = 0;
                 }
-                l4b->b_b6 = l3;
-                l3 += l4b->b_b5;
+                l4b->bOffset = l3;
+                l3 += l4b->bWidth;
                 if (l3 == 32) {
                     l3 = 0;
                     l1 += 2;
@@ -2362,7 +2365,7 @@ static int array_A162[] = {
 };
 
 /*********************************************************
- * sub_1F4B OK++ PMO			Used in: sub_2BD0
+ * sub_1F4B OK++ PMO	Used in: sub_2BD0
  * one small block of code moved by optimiser otherwise code
  * identical
  * Note needs standalone ported optimiser to optimise
@@ -2543,7 +2546,7 @@ int sub_1F4B(node_t *p1a, int p2, int p3, int p4, int *p5) {
  */
 
 /*********************************************************
- * sub_283E OK++ PMO			Used in: sub_2B2A
+ * sub_283E OK++ PMO				 Used in: sub_2B2A
  *
  * apart from one minor optimisation difference to save
  * a pop bc, the code is identical
@@ -2644,7 +2647,7 @@ int sub_283E(register node_t *sa, int par) {
 }
 
 /*********************************************************
- * sub_2B2A OK++ PMO Used in: sub_1F4B, sub_283E, sub_2B79
+ * sub_2B2A OK++ PMO   Used in: sub_1F4B, sub_283E, sub_2B79
  * optimiser improves on code for sa->a_c1 - 1
  *********************************************************/
 int sub_2B2A(register node_t *sa) {
@@ -2677,7 +2680,7 @@ uint8_t sub_2B79(register node_t *sa) {
  */
 
 /*********************************************************
- * sub_2BD0 OK++ PMO  Used in: sub_793, sub_808, sub_3CDF
+ * sub_2BD0 OK++ PMO      Used in: sub_793, sub_808, sub_3CDF
  *			       sub_3DC9
  *********************************************************/
 void sub_2BD0(register node_t *sa) {
@@ -2743,7 +2746,7 @@ uint16_t nodesize(node_t *);
 uint8_t sub_46F7(long);
 #endif
 /*.......................................................*
- *  sub_2D09_v2 OK++			Used in: sub_3564
+ *  sub_2D09_v2 OK++	Used in: sub_3564
  * minor differences
  * 1) block of 5 instructions has different order but same effect
  * 2) one optimisation missed on loading a from lc10, possibly
@@ -2951,7 +2954,7 @@ void sub_2D09(register node_t *sa, char *p2, char p3) {
 
         case 'C':
             if (la2->a_c0 == BFIELD)
-                printf("%d", la2->info.mp[1]->b_b6);
+                printf("%d", la2->info.mp[1]->bOffset);
             else {
                 ll9 = la2->info.l;
                 if (sub_46F7(ll9) == 0)
@@ -2961,7 +2964,7 @@ void sub_2D09(register node_t *sa, char *p2, char p3) {
             break;
         case 'T':
             if (la2->a_c0 == BFIELD)
-                printf("%d", la2->info.mp[1]->b_b5);
+                printf("%d", la2->info.mp[1]->bWidth);
             else {
                 ll9 = la2->info.l;
                 if (sub_46F7(ll9) == 0)
@@ -3022,7 +3025,7 @@ void sub_3564(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_35E6 OK++ PMO			Used in: sub_2BD0
+ * sub_35E6 OK++ PMO				Used in: sub_2BD0
  *
  *********************************************************/
 void sub_35E6(register node_t *sa) {
@@ -3052,8 +3055,8 @@ void sub_35E6(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_36E0 PMO    Used in: sub_E43,  sub_39CA, sub_3CDF,
- * OK++ 		    sub_3DC9, sub_3EAA, sub_43EF,
+ * sub_36E0 OK++ PMO   Used in: sub_E43,  sub_39CA, sub_3CDF,
+ *			    sub_3DC9, sub_3EAA, sub_43EF,
  *			    sub_475C, sub_4C8B, sub_4FA8,
  *			    sub_508A, sub_53EE, sub_54B6,
  *			    sub_5DF6, sub_5F52
@@ -3068,8 +3071,8 @@ void freeNode(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_3712  PMO    Used in: sub_E43,  sub_377A, sub_415E,
- * OK++			     sub_4192, sub_43EF, sub_4DA3,
+ * sub_3712 OK++ PMO    Used in: sub_E43,  sub_377A, sub_415E,
+ *			     sub_4192, sub_43EF, sub_4DA3,
  *			     sub_54B6
  *********************************************************/
 node_t *allocNode(void) {
@@ -3083,6 +3086,7 @@ node_t *allocNode(void) {
     } else { /* create node_t */
         sa = allocMem(sizeof(node_t));
     }
+
     return sa;
 }
 
@@ -3138,8 +3142,8 @@ void sub_37ED(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_385B  PMO    Used in: sub_387A, sub_43EF, sub_4DA3,
- * OK++			     sub_4E8D
+ * sub_385B OK++ PMO    Used in: sub_387A, sub_43EF, sub_4DA3,
+ *			     sub_4E8D
  *********************************************************/
 void sub_385B(register node_t *sa) {
     sa->a_i15 = (sa->a_i15 * 4) | 1;
@@ -3203,8 +3207,8 @@ bool sub_3968(register node_t *sa) {
 }
 
 /*********************************************************
- * nodesize  PMO    Used in: sub_808,  sub_E43,  sub_2C5E,
- * OK++			     sub_2D09, sub_387A, sub_3A79,
+ * nodesize OK++ PMO    Used in: sub_808,  sub_E43,  sub_2C5E,
+ *			     sub_2D09, sub_387A, sub_3A79,
  *			     sub_43EF, sub_47B2, sub_508A,
  *			     sub_54B6, sub_60A8, sub_6246,
  *			     sub_62BE
@@ -3241,7 +3245,7 @@ node_t *sub_39CA(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_3A79 OK++ PMO	       Used in: sub_3EAA, sub_39CA
+ * sub_3A79 OK++ PMO	              Used in: sub_3EAA, sub_39CA
  *
  * Compiler generates code that performs expected action,
  * but differs from original image
@@ -3387,7 +3391,7 @@ void sub_3DC9(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_3EAA OK++ PMO			Used in: sub_600E
+ * sub_3EAA OK++ PMO				Used in: sub_600E
  *********************************************************/
 
 node_t *sub_3EAA(register node_t *sa) {
@@ -3472,7 +3476,7 @@ node_t *sub_3EAA(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_415E OK     Used in: sub_808,  sub_E43,  sub_4192,
+ * sub_415E OK   Used in: sub_808,  sub_E43,  sub_4192,
  *			    sub_4DA3, sub_54B6
  *********************************************************/
 node_t *sub_415E(long number) {
@@ -3515,8 +3519,8 @@ node_t *allocNode();
 void prGlobalDef(member_t *);
 #endif
 /*********************************************************
- * sub_4192  PMO    Used in: sub_6D1,  sub_793,  sub_808,
- * OK++			     sub_B19,  sub_E43,  sub_17E0,
+ * sub_4192 OK++ PMO     Used in: sub_6D1,  sub_793,  sub_808,
+ *			     sub_B19,  sub_E43,  sub_17E0,
  *			     sub_19C1, sub_1B0C
  * minor variation due to paramater 1 of sub_43EF being declared
  * uint8_t, otherwise identical
@@ -3605,10 +3609,11 @@ node_t *parseExpr() {
  */
 
 /*********************************************************
- * sub_43EF OK++ PMO Used in: sub_793,  sub_808,  sub_E43,
+ * sub_43EF OK++ PMO      Used in: sub_793,  sub_808,  sub_E43,
  *                            sub_4192, sub_4C8B, sub_4DA3,
  *                            sub_4E8D, sub_508A, sub_54B6,
  *                            sub_5DF6
+
  *********************************************************/
 node_t *sub_43EF(uint8_t p1, node_t *p2a, node_t *p3a) {
     member_t *l1b;
@@ -3699,7 +3704,7 @@ node_t *sub_43EF(uint8_t p1, node_t *p2a, node_t *p3a) {
 }
 
 /*********************************************************
- * sub_46F7 OK++ PMO Used in: sub_2D09, sub_47B2, sub_4FCE
+ * sub_46F7 OK++ PMO     Used in: sub_2D09, sub_47B2, sub_4FCE
  *			      sub_54B6
  *********************************************************/
 uint8_t sub_46F7(long p1) {
@@ -3714,11 +3719,11 @@ uint8_t sub_46F7(long p1) {
 }
 
 /*********************************************************
- * sub_475C OK++ PMO Used in: sub_808,  sub_E43,  sub_17E0,
- *			      sub_19C1, sub_1B0C, sub_2BD0,
- *			      sub_3DC9, sub_3EAA, sub_43EF,
- *			      sub_475C, sub_4DA3, sub_4FA8,
- *			      sub_508A, sub_54B6
+ * sub_475C OK++ PMO    Used in: sub_808,  sub_E43,  sub_17E0,
+ *			     sub_19C1, sub_1B0C, sub_2BD0,
+ *			     sub_3DC9, sub_3EAA, sub_43EF,
+ *			     sub_475C, sub_4DA3, sub_4FA8,
+ *			     sub_508A, sub_54B6
  *********************************************************/
 void sub_475C(register node_t *sa) {
     int loc;
@@ -3732,7 +3737,7 @@ void sub_475C(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_47B2 OK++ PMO			Used in: sub_1F4B
+ * sub_47B2 OK++ PMO				Used in: sub_1F4B
  * The code optimisers generate many differences in the code
  * however the vast majority relate to the choice of the code
  * fragments to share for returning true/false and generating
@@ -3861,7 +3866,7 @@ uint8_t sub_47B2(register node_t *sa, int p2) {
 }
 
 /*********************************************************
- * sub_4B89 OK++ PMO	       Used in: sub_4C12, sub_54B6
+ * sub_4B89 OK++ PMO		      Used in: sub_4C12, sub_54B6
 
  *********************************************************/
 bool sub_4B89(register node_t *sa) {
@@ -3892,7 +3897,7 @@ int sub_4C12(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_4C6D OK++ PMO			Used in: sub_3CDF
+ * sub_4C6D OK++ PMO				Used in: sub_3CDF
  * bool causes optimiser to use ld l, rather than ld hl
  *********************************************************/
 bool sub_4C6D(node_t *p1a) {
@@ -3995,7 +4000,7 @@ node_t *sub_4FA8(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_4FCE OK++ OK			Used in: sub_54B6
+ * sub_4FCE OK++ OK				Used in: sub_54B6
  *
  *********************************************************/
 node_t *sub_4FCE(register node_t *sa) {
@@ -4153,7 +4158,7 @@ bool sub_62BE(node_t *, node_t *);
 #endif
 
 /*********************************************************
- * sub_54B6 - OK++ PMO			Used in: sub_600E
+ * sub_54B6 - OK++ PMO	Used in: sub_600E
  * needs ported optimiser to build
  * Optimiser differences
  * 1) in the GT ? GEQ : LT the GEQ assignment is moved
@@ -4355,7 +4360,7 @@ node_t *sub_54B6(register node_t *sa) {
  */
 
 /*********************************************************
- * sub_5CF5 OK++ PMO	    Used in: leaveBlock, sub_17E0
+ * sub_5CF5 OK++ PMO			Used in: leaveBlock, sub_17E0
  *
  *********************************************************/
 void sub_5CF5(register member_t *sb, int p2) {
@@ -4458,7 +4463,7 @@ node_t *sub_5F52(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_600E OK++ PMO Used in: sub_793,  sub_808,  sub_E43,
+ * sub_600E OK++ PMO     Used in: sub_793,  sub_808,  sub_E43,
  *                            sub_17E0, sub_19C1, sub_1B0C,
  *			      sub_3DC9
  *********************************************************/
@@ -4485,7 +4490,7 @@ node_t *sub_600E(register node_t *sa) {
 }
 
 /*********************************************************
- * sub_605E OK++ PMO			Used in: sub_4C8B
+ * sub_605E OK++ PMO				Used in: sub_4C8B
  *
  *********************************************************/
 
@@ -4513,7 +4518,7 @@ int invertTest(int op) {
 }
 
 /*********************************************************
- * sub_60A8 OK++ PMO			Used in: sub_54B6
+ * sub_60A8 OK++ PMO				Used in: sub_54B6
  *
  *********************************************************/
 bool sub_60A8(register node_t *sa, node_t *p2a) {
@@ -4601,7 +4606,7 @@ bool sub_62BE(register node_t *sa, node_t *p2a) {
 #endif
 /* clang-format on */
 /*********************************************************
- * sub_63B8 OK++ PMO			Used in: sub_1F4B
+ * sub_63B8 OK++ PMO				Used in: sub_1F4B
  *
  *********************************************************/
 uint8_t sub_63B8(int p1, int p2, int p3) {
@@ -4635,8 +4640,8 @@ uint8_t sub_63B8(int p1, int p2, int p3) {
 }
 
 /*********************************************************
- * sub_6589 OK++ PMO Used in: sub_1F4B, sub_2B79, sub_61AA,
- *			      sub_63B8, sub_66BC
+ * sub_6589 OK++ PMO    Used in: sub_1F4B, sub_2B79, sub_61AA,
+ *			     sub_63B8, sub_66BC
  * Optimiser improves on
  *      ld a,(ix-1) ! add a,255 ! ld (ix-1),a ! or a
  * with dec (ix-1)
@@ -4737,10 +4742,12 @@ int main(int argc, char **argv) {
     --argc, ++argv;
     while (argc > 0 && **argv == '-') { /* Parsing options */
         switch (argv[0][1]) {
+#if 0
         case 'P':
         case 'p':
             pflag = true;
             break; /* Not use */
+#endif
         case 'W':
         case 'w':
             wflag = true;
@@ -4748,6 +4755,7 @@ int main(int argc, char **argv) {
         case 'R':
             rflag = true;
             break;
+#if 0
         case 'B':
             bflag = true;
             break; /* Not use */
@@ -4757,6 +4765,7 @@ int main(int argc, char **argv) {
         case 'H':
             hflag = true;
             break; /* Not use */
+#endif
         default:
             fatalErr("Illegal\tswitch %c", argv[0][1]);
             break;
@@ -4776,7 +4785,6 @@ int main(int argc, char **argv) {
     }
     /* Exit with error code */
     exit(errcnt != 0); /* Generated code is not significantly different */
-
 }
 
 /*
@@ -4785,9 +4793,9 @@ int main(int argc, char **argv) {
  */
 
 /*********************************************************
- * sub_6AA2 OK PMO Used in: badIntCode,  sub_17E0, sub_19C1,
- *			    sub_2BD0, sub_4192, sub_6B1D,
- * fatalErr error  	    sub_6B9B,
+ * sub_6AA2 OK PMO     Used in: badIntCode,  sub_17E0, sub_19C1,
+ *			      sub_2BD0, sub_4192, sub_6B1D,
+ * fatalErr error  	      sub_6B9B,
  * Difference due to change to use stdarg
  *********************************************************/
 _Noreturn void fatalErr(char *fmt, ...) {
@@ -4935,7 +4943,7 @@ rescan:
 }
 
 /*********************************************************
- * malloc v2 OK				Used in: allocMem
+ * malloc v2 OK			Used in: allocMem
  *********************************************************/
 void *malloc(size_t size) {
     uint8_t *l1;
